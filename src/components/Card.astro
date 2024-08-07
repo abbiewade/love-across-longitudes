@@ -1,61 +1,55 @@
 ---
+import {Icon} from 'astro-icon/components'
+
 interface Props {
-	title: string;
-	body: string;
-	href: string;
+    category: string;
+    icon: string;
+    question: string;
+    color: string;
 }
 
-const { href, title, body } = Astro.props;
+function hexToRgbA(hex) {
+    var c;
+    if (/^#([A-Fa-f0-9]{3}){1,2}$/.test(hex)) {
+        c = hex.substring(1).split('');
+        if (c.length == 3) {
+            c = [c[0], c[0], c[1], c[1], c[2], c[2]];
+        }
+        c = '0x' + c.join('');
+        return 'rgba(' + [(c >> 16) & 255, (c >> 8) & 255, c & 255].join(',') + ',0.2)';
+    }
+    throw new Error('Bad Hex');
+}
+
+const {category, icon, question, color} = Astro.props;
 ---
 
-<li class="link-card">
-	<a href={href}>
-		<h2>
-			{title}
-			<span>&rarr;</span>
-		</h2>
-		<p>
-			{body}
-		</p>
-	</a>
-</li>
+<div
+        style={{
+            border: `solid 4px ${color}`,
+            background: hexToRgbA(color),
+            borderRadius: '16px',
+            maxWidth: '420px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            flexDirection: 'column',
+            padding: '24px',
+        }}
+>
+    <Icon name={icon} size={14} style={{color}}/>
+    <p style={{fontSize: '12px', margin: 0, color}}>
+        {category.toUpperCase()}
+    </p>
+    <p style={{
+        fontSize: '24px',
+        textAlign: 'center'
+    }}>
+        {question}
+    </p>
+</div>
+
 <style>
-	.link-card {
-		list-style: none;
-		display: flex;
-		padding: 1px;
-		background-color: #23262d;
-		background-image: none;
-		background-size: 400%;
-		border-radius: 7px;
-		background-position: 100%;
-		transition: background-position 0.6s cubic-bezier(0.22, 1, 0.36, 1);
-		box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
-	}
-	.link-card > a {
-		width: 100%;
-		text-decoration: none;
-		line-height: 1.4;
-		padding: calc(1.5rem - 1px);
-		border-radius: 8px;
-		color: white;
-		background-color: #23262d;
-		opacity: 0.8;
-	}
-	h2 {
-		margin: 0;
-		font-size: 1.25rem;
-		transition: color 0.6s cubic-bezier(0.22, 1, 0.36, 1);
-	}
-	p {
-		margin-top: 0.5rem;
-		margin-bottom: 0;
-	}
-	.link-card:is(:hover, :focus-within) {
-		background-position: 0;
-		background-image: var(--accent-gradient);
-	}
-	.link-card:is(:hover, :focus-within) h2 {
-		color: rgb(var(--accent-light));
-	}
+    promptcard {
+    }
 </style>
