@@ -1,0 +1,22 @@
+.prompt-card {
+    border-style: solid;
+    border-width: 4px;
+    border-radius: 16px;
+    max-width: 420px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 24px;
+}
+
+.prompt-pre-heading {
+    margin: 0;
+    font-size: 12px;
+    font-weight: bolder;
+}
+
+.prompt-question {
+    font-size: 24px;
+    text-align: center;
+}

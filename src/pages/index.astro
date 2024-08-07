@@ -1,41 +1,50 @@
 ---
-import {generateData} from "../shared/utils";
-import Layout from '../layouts/Layout.astro';
-import Card from "../components/Card.astro";
+import {PromptCard} from "../components/Card";
 import logo from "../data/Logo.svg?raw"
-import {Icon} from "astro-icon/components";
-
-const {card, share} = generateData();
+import {ShareBar} from "../components/ShareBar";
+import {SkipButton} from "../components/SkipButton";
 ---
 
-<script is:inline>
-    window.document.getElementById('skip-question')
-        .addEventListener('click', () => {
-            window.location.reload();
-        });
-</script>
-
-<Layout title="Love Across Longitudes">
-    <main>
-        <Fragment set:html={logo}/>
-        <div class="card-container">
-            <Card {...card}/>
-            <button id="skip-question" class="skip-button">Skip</button>
-        </div>
-        <div class="share-container">
-            <p class="share-heading">Share</p>
-            <div class="share-button">
-                <a href={share.sms}>
-                    <Icon name="simple-icons:imessage" size={64} class="imessage-icon"/>
-                </a>
-            </div>
-        </div>
-
-
-    </main>
-</Layout>
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="description" content="Questions to answer and share with your loved one."/>
+    <meta name="viewport" content="width=device-width"/>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg"/>
+    <meta name="Love Across Longitudes" content="Love Across Longitudes"/>
+    <title>Love Across Longitudes</title>
+</head>
+<body>
+<main>
+    <Fragment set:html={logo}/>
+    <div class="card-container">
+        <PromptCard client:load/>
+        <SkipButton client:load/>
+    </div>
+    <ShareBar client:load/>
+</main>
+</body>
+</html>
 
 <style>
+    :root {
+        --accent: 136, 58, 234;
+        --accent-light: 224, 204, 250;
+        --accent-dark: 49, 10, 101;
+        --accent-gradient: linear-gradient(
+                45deg,
+                rgb(var(--accent)),
+                rgb(var(--accent-light)) 30%,
+                white 60%
+        );
+    }
+
+    html {
+        font-family: system-ui, sans-serif;
+        background: #13151a;
+    }
+
     main {
         margin: auto;
         width: 800px;
@@ -57,59 +66,12 @@ const {card, share} = generateData();
         text-align: center;
     }
 
-    .share-container {
-        display: flex;
-        align-items: center;
-        gap: 24px;
-        background-color: #262a36;
-        border-radius: 20px;
-        padding: 12px 48px;
-    }
-
-    .share-heading {
-        margin: 0;
-        font-size: 16px;
-        text-align: center;
-    }
-
-    .imessage-icon {
-        color: #39ff5a;
-    }
-
-    .share-button {
-        box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
-        transition: all300ms ease;
-        border-radius: 20px;
-        height: 64px;
-        width: 64px;
-        overflow: hidden;
-        background-color: #fff;
-    }
-
-    .share-button:hover {
-        opacity: 0.85;
-    }
 
     .card-container {
         display: flex;
         flex-direction: column;
         align-items: center;
         gap: 16px;
-    }
-
-    .skip-button {
-        background: none;
-        color: inherit;
-        border: none;
-        padding: 0;
-        font: inherit;
-        cursor: pointer;
-        outline: inherit;
-        font-size: 12px;
-    }
-
-    .skip-button:hover {
-        color: #dfdfdf;
     }
 
 </style>

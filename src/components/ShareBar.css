@@ -1,0 +1,32 @@
+.share-container {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    background-color: #262a36;
+    border-radius: 20px;
+    padding: 12px 48px;
+}
+
+.share-heading {
+    margin: 0;
+    font-size: 16px;
+    text-align: center;
+}
+
+.imessage-icon {
+    color: #39ff5a;
+}
+
+.share-button {
+    box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+    transition: all300ms ease;
+    border-radius: 20px;
+    height: 64px;
+    width: 64px;
+    overflow: hidden;
+    background-color: #fff;
+}
+
+.share-button:hover {
+    opacity: 0.85;
+}
