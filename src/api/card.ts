@@ -16,9 +16,15 @@ export const GET_CARD: APIRoute = async () => {
         icon: category.icon,
     };
 
+    const smsQuestion = encodeURIComponent(c.question.trim())
+    const share = {
+        sms: `sms://;?&body=Q:%20${smsQuestion}%0aA:%20`
+    };
+
     return new Response(
         JSON.stringify({
             card,
+            share,
         }),
     )
 }

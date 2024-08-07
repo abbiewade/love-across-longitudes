@@ -14,8 +14,8 @@ export function convertHexToRgbA(hex: string): string {
 
     // Convert to RGB values
     const r = parseInt(fullHex.substring(0, 2), 16);
-    const g = parseInt(fullHex.substring(2, 2), 16);
-    const b = parseInt(fullHex.substring(4, 2), 16);
+    const g = parseInt(fullHex.substring(2, 4), 16);
+    const b = parseInt(fullHex.substring(4, 6), 16);
 
     // Return the RGBA string
     return `rgba(${r},${g},${b},0.2)`;

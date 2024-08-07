@@ -3,32 +3,45 @@ import type {CardProps} from "../ui/Card";
 import {GET_CARD} from "../api/card";
 import Layout from '../layouts/Layout.astro';
 import Card from "../components/Card.astro";
+import logo from "../components/Logo.svg?raw"
+import {Icon} from "astro-icon/components";
 
 const response = await GET_CARD(Astro);
 const data: CardProps = await response.json()
 ---
 
-<Layout title="Couples cues">
+<Layout title="Love Across Longitudes">
     <main>
-        <h1>Couples <span class="text-gradient">Cues</span></h1>
+        <!--<img src={logo} width={50} height={50} alt="Love Across Longitudes"/>-->
+
+        <Fragment set:html={logo}/>
         <Card {...data.card}/>
         <!--// https://stackoverflow.com/questions/6480462/how-to-pre-populate-the-sms-body-text-via-an-html-link-->
-        <a href="sms://;?&body=Hello%20World">Only body</a>
+        <div class="share-container">
+            <p class="share-heading">Share</p>
+            <div class="share-button">
+                <a href={data.share.sms}>
+                    <Icon name="simple-icons:imessage" size={64} class="imessage-icon"/>
+                </a>
+            </div>
+        </div>
 
     </main>
-
-
 </Layout>
 
 <style>
     main {
         margin: auto;
-        padding: 1rem;
         width: 800px;
         max-width: calc(100% - 2rem);
         color: white;
         font-size: 20px;
         line-height: 1.6;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 64px;
+        padding: 32px;
     }
 
     h1 {
@@ -36,15 +49,39 @@ const data: CardProps = await response.json()
         font-weight: 700;
         line-height: 1;
         text-align: center;
-        margin-bottom: 1em;
     }
 
-    .text-gradient {
-        background-image: var(--accent-gradient);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-size: 400%;
-        background-position: 0%;
+    .share-container {
+        display: flex;
+        align-items: center;
+        gap: 24px;
+        background-color: #262a36;
+        border-radius: 20px;
+        padding: 12px 48px;
+    }
+
+    .share-heading {
+        margin: 0;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .imessage-icon {
+        color: #39ff5a;
+    }
+
+    .share-button {
+        box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+        transition: all300ms ease;
+        border-radius: 20px;
+        height: 64px;
+        width: 64px;
+        overflow: hidden;
+        background-color: #fff;
+    }
+
+    .share-button:hover {
+        opacity: 0.85;
     }
 
 </style>
