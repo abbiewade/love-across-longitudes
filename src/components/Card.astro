@@ -1,24 +1,23 @@
 ---
 import {Icon} from 'astro-icon/components'
 import {convertHexToRgbA} from "../shared/utils";
-import {Card} from "../shared/types";
 
-const {category, icon, question, color}: Card = Astro.props;
+const {props} = Astro;
 ---
 
 <div
         class="prompt-card"
         style={{
-            borderColor: color,
-            background: convertHexToRgbA(color),
+            borderColor: props.color,
+            background: convertHexToRgbA(props.color),
         }}
 >
-    <Icon name={icon} size={14} style={{color}}/>
-    <p class="prompt-pre-heading" style={{color}}>
-        {category.toUpperCase()}
+    <Icon name={props.icon} size={14} style={{color: props.color}}/>
+    <p class="prompt-pre-heading" style={{color: props.color}}>
+        {props.category.toUpperCase()}
     </p>
     <p class="prompt-question">
-        {question}
+        {props.question}
     </p>
 </div>
 

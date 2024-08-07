@@ -8,9 +8,8 @@ import {Icon} from "astro-icon/components";
 const {card, share} = generateData();
 ---
 
-<script>
-    document
-        .getElementById('skip-question')
+<script is:inline>
+    window.document.getElementById('skip-question')
         .addEventListener('click', () => {
             window.location.reload();
         });
