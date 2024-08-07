@@ -19,10 +19,10 @@ import {SkipButton} from "../components/SkipButton";
 <main>
     <Fragment set:html={logo}/>
     <div class="card-container">
-        <PromptCard client:load/>
-        <SkipButton client:load/>
+        <PromptCard client:only="react"/>
+        <SkipButton client:only="react"/>
     </div>
-    <ShareBar client:load/>
+    <ShareBar client:only="react"/>
 </main>
 </body>
 </html>
