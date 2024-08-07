@@ -1,30 +1,11 @@
 ---
-import type {Category, DbCard} from "../utils/types";
-import {sample} from "../utils/arrays";
-import {CARDS_LIST} from "../data/cards";
-import {CATEGORIES_MAP, DEFAULT_CATEGORY} from "../data/categories";
+import {generateData} from "../shared/utils";
 import Layout from '../layouts/Layout.astro';
 import Card from "../components/Card.astro";
-import logo from "../components/Logo.svg?raw"
+import logo from "../data/Logo.svg?raw"
 import {Icon} from "astro-icon/components";
 
-const SMS_SPACE = "%20";
-const SMS_NEW_LINE = "%0a"
-
-const c: DbCard = sample(CARDS_LIST);
-const category: Category = CATEGORIES_MAP[c.categoryId] ?? DEFAULT_CATEGORY;
-
-const card: Card = {
-    id: c.id,
-    question: c.question,
-    category: category.name,
-    color: category.color,
-    icon: category.icon,
-};
-
-const share = {
-    sms: "sms://;?&body=" + `Q:${SMS_SPACE}${encodeURIComponent(category.name.trim())}${SMS_SPACE}-${SMS_SPACE}${encodeURIComponent(c.question.trim())}${SMS_NEW_LINE}A:${SMS_SPACE}`
-};
+const {card, share} = generateData();
 ---
 
 <script>

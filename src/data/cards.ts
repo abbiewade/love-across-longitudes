@@ -21,7 +21,7 @@ import {
     PREFERENCES_QUESTIONS,
     SELF_DISCOVERY_QUESTIONS, UNSORTED_QUESTIONS
 } from "./prompts.ts";
-import type {DbCard} from "../utils/types.ts";
+import type {DbCard} from "../shared/types.ts";
 
 export const CARDS_LIST: DbCard[] = [
     ...INTIMACY_QUESTIONS,

@@ -1,4 +1,4 @@
-import type {Category, Id} from "../utils/types.ts";
+import type {Category, Id} from "../shared/types.ts";
 
 export const DEFAULT_CATEGORY: Category = {
     "id": -1,
