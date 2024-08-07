@@ -6,8 +6,6 @@ import Card from "../components/Card.astro";
 
 const response = await GET_CARD(Astro);
 const data: CardProps = await response.json()
-
-console.log({data})
 ---
 
 <Layout title="Couples cues">

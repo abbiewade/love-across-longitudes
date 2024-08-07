@@ -1,55 +1,48 @@
 ---
 import {Icon} from 'astro-icon/components'
+import {convertHexToRgbA} from "../utils/styles";
+import {Card} from "../utils/types";
 
-interface Props {
-    category: string;
-    icon: string;
-    question: string;
-    color: string;
-}
-
-function hexToRgbA(hex) {
-    var c;
-    if (/^#([A-Fa-f0-9]{3}){1,2}$/.test(hex)) {
-        c = hex.substring(1).split('');
-        if (c.length == 3) {
-            c = [c[0], c[0], c[1], c[1], c[2], c[2]];
-        }
-        c = '0x' + c.join('');
-        return 'rgba(' + [(c >> 16) & 255, (c >> 8) & 255, c & 255].join(',') + ',0.2)';
-    }
-    throw new Error('Bad Hex');
-}
-
-const {category, icon, question, color} = Astro.props;
+const {category, icon, question, color}: Card = Astro.props;
 ---
 
 <div
+        class="prompt-card"
         style={{
-            border: `solid 4px ${color}`,
-            background: hexToRgbA(color),
-            borderRadius: '16px',
-            maxWidth: '420px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            flexDirection: 'column',
-            padding: '24px',
+            borderColor: color,
+            background: convertHexToRgbA(color),
         }}
 >
     <Icon name={icon} size={14} style={{color}}/>
-    <p style={{fontSize: '12px', margin: 0, color}}>
+    <p class="prompt-pre-heading" style={{color}}>
         {category.toUpperCase()}
     </p>
-    <p style={{
-        fontSize: '24px',
-        textAlign: 'center'
-    }}>
+    <p class="prompt-question">
         {question}
     </p>
 </div>
 
 <style>
-    promptcard {
+    .prompt-card {
+        border-style: solid;
+        border-width: 4px;
+        border-radius: 16px;
+        max-width: 420px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        padding: 24px;
+    }
+
+    .prompt-pre-heading {
+        margin: 0;
+        font-size: 12px;
+        font-weight: bolder;
+    }
+
+    .prompt-question {
+        font-size: 24px;
+        text-align: center;
     }
 </style>

@@ -1,36 +1,20 @@
-import {db, Cards, sql, eq, min, Categories, NOW} from 'astro:db';
 import type {APIRoute} from 'astro';
-import assert from "node:assert";
+import {CARDS_LIST} from "../data/cards.ts";
+import type {Card, Category, DbCard} from "../utils/types.ts";
+import {CATEGORIES_MAP, DEFAULT_CATEGORY} from "../data/categories.ts";
+import {sample} from "../utils/arrays.ts";
 
 export const GET_CARD: APIRoute = async () => {
-    const smallestCard = await db.select({value: min(Cards.askedCount)}).from(Cards);
-    const smallestLastCount: number = smallestCard[0]?.value ?? 0;
+    const c: DbCard = sample(CARDS_LIST);
+    const category: Category = CATEGORIES_MAP[c.categoryId] ?? DEFAULT_CATEGORY;
 
-    const cardsArr = await db
-        .select({
-            id: Cards.id,
-            question: Cards.question,
-            category: Categories.name,
-            color: Categories.color,
-            icon: Categories.icon,
-            lastAsked: Cards.lastAsked,
-            askedCount: Cards.askedCount,
-        })
-        .from(Cards)
-        .leftJoin(Categories, eq(Cards.categoryId, Categories.id))
-        .where(eq(Cards.askedCount, smallestLastCount))
-        .orderBy(sql.raw("RANDOM()"))
-        .limit(1);
-
-    const card = cardsArr[0];
-    assert(card);
-
-    await db.update(Cards)
-        .set({
-            lastAsked: NOW,
-            askedCount: card.askedCount + 1,
-        })
-        .where(eq(Cards.id, card.id));
+    const card: Card = {
+        id: c.id,
+        question: c.question,
+        category: category.name,
+        color: category.color,
+        icon: category.icon,
+    };
 
     return new Response(
         JSON.stringify({
