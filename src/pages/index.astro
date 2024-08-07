@@ -1,30 +1,56 @@
 ---
-import type {CardProps} from "../ui/Card";
-import {GET_CARD} from "../api/card";
+import type {Category, DbCard} from "../utils/types";
+import {sample} from "../utils/arrays";
+import {CARDS_LIST} from "../data/cards";
+import {CATEGORIES_MAP, DEFAULT_CATEGORY} from "../data/categories";
 import Layout from '../layouts/Layout.astro';
 import Card from "../components/Card.astro";
 import logo from "../components/Logo.svg?raw"
 import {Icon} from "astro-icon/components";
 
-const response = await GET_CARD(Astro);
-const data: CardProps = await response.json()
+const SMS_SPACE = "%20";
+const SMS_NEW_LINE = "%0a"
+
+const c: DbCard = sample(CARDS_LIST);
+const category: Category = CATEGORIES_MAP[c.categoryId] ?? DEFAULT_CATEGORY;
+
+const card: Card = {
+    id: c.id,
+    question: c.question,
+    category: category.name,
+    color: category.color,
+    icon: category.icon,
+};
+
+const share = {
+    sms: "sms://;?&body=" + `Q:${SMS_SPACE}${encodeURIComponent(category.name.trim())}${SMS_SPACE}-${SMS_SPACE}${encodeURIComponent(c.question.trim())}${SMS_NEW_LINE}A:${SMS_SPACE}`
+};
 ---
+
+<script>
+    document
+        .getElementById('skip-question')
+        .addEventListener('click', () => {
+            window.location.reload();
+        });
+</script>
 
 <Layout title="Love Across Longitudes">
     <main>
-        <!--<img src={logo} width={50} height={50} alt="Love Across Longitudes"/>-->
-
         <Fragment set:html={logo}/>
-        <Card {...data.card}/>
-        <!--// https://stackoverflow.com/questions/6480462/how-to-pre-populate-the-sms-body-text-via-an-html-link-->
+        <div class="card-container">
+            <Card {...card}/>
+            <button id="skip-question" class="skip-button">Skip</button>
+        </div>
         <div class="share-container">
             <p class="share-heading">Share</p>
             <div class="share-button">
-                <a href={data.share.sms}>
+                <a href={share.sms}>
                     <Icon name="simple-icons:imessage" size={64} class="imessage-icon"/>
                 </a>
             </div>
         </div>
+
 
     </main>
 </Layout>
@@ -82,6 +108,28 @@ const data: CardProps = await response.json()
 
     .share-button:hover {
         opacity: 0.85;
+    }
+
+    .card-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 16px;
+    }
+
+    .skip-button {
+        background: none;
+        color: inherit;
+        border: none;
+        padding: 0;
+        font: inherit;
+        cursor: pointer;
+        outline: inherit;
+        font-size: 12px;
+    }
+
+    .skip-button:hover {
+        color: #dfdfdf;
     }
 
 </style>
